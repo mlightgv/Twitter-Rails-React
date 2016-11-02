@@ -1,0 +1,22 @@
+{
+  "name": "twitter-clone",
+  "version": "1.0.0",
+  "description": "Twitter clone, written in React and Rails",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mlightgv/Twitter-Rails-React.git"
+  },
+  "author": "Mary Gomez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mlightgv/Twitter-Rails-React/issues"
+  },
+  "homepage": "https://github.com/mlightgv/Twitter-Rails-React#readme"
+}
