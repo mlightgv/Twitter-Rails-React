@@ -105,12 +105,12 @@ GEM
     rake (11.3.0)
     rdoc (4.2.2)
       json (~> 1.4)
-    react-rails (1.9.0)
+    react-rails (1.4.2)
       babel-transpiler (>= 0.7.0)
       coffee-script-source (~> 1.8)
       connection_pool
       execjs
-      railties (>= 3.2)
+      rails (>= 3.2)
       tilt
     sass (3.4.22)
     sass-rails (5.0.6)
@@ -153,7 +153,7 @@ DEPENDENCIES
   jquery-rails
   pg
   rails (= 4.2.4)
-  react-rails
+  react-rails (~> 1.4.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
