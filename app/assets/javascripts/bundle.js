@@ -72,20 +72,30 @@
 	var Main = function (_React$Component) {
 	  _inherits(Main, _React$Component);
 	
-	  function Main() {
+	  function Main(props) {
 	    _classCallCheck(this, Main);
 	
-	    return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+	    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
+	
+	    _this.state = { tweetsList: mockTweets };
+	    return _this;
 	  }
 	
 	  _createClass(Main, [{
+	    key: 'addTweet',
+	    value: function addTweet(tweetToAdd) {
+	      var newTweetsList = this.state.tweetsList;
+	      newTweetsList.unshift({ id: Date.now(), name: 'Guess', body: tweetToAdd });
+	      this.setState({ tweetsList: newTweetsList });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return React.createElement(
 	        'div',
 	        { className: 'container' },
-	        React.createElement(_TweetBox2.default, null),
-	        React.createElement(_TweetList2.default, { tweets: mockTweets })
+	        React.createElement(_TweetBox2.default, { sendTweet: this.addTweet.bind(this) }),
+	        React.createElement(_TweetList2.default, { tweets: this.state.tweetsList })
 	      );
 	    }
 	  }]);
@@ -130,6 +140,13 @@
 	  }
 	
 	  _createClass(TweetBox, [{
+	    key: "sendTweet",
+	    value: function sendTweet(event) {
+	      event.preventDefault();
+	      this.props.sendTweet(this.refs.tweetTextArea.value);
+	      this.refs.tweetTextArea.value = '';
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      return React.createElement(
@@ -137,11 +154,11 @@
 	        { className: "row" },
 	        React.createElement(
 	          "form",
-	          null,
+	          { onSubmit: this.sendTweet.bind(this) },
 	          React.createElement(
 	            "div",
 	            { className: "input-field" },
-	            React.createElement("textarea", { className: "materialize-textarea" }),
+	            React.createElement("textarea", { ref: "tweetTextArea", className: "materialize-textarea" }),
 	            React.createElement(
 	              "label",
 	              null,
@@ -149,7 +166,7 @@
 	            ),
 	            React.createElement(
 	              "button",
-	              { className: "btn right" },
+	              { type: "submit", className: "btn right" },
 	              "Tweet"
 	            )
 	          )
