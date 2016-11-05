@@ -15,15 +15,6 @@ class Main extends React.Component {
     this.state = getAppState();
     this._onChange = this._onChange.bind(this);
   }
-  formattedTweets(tweetsList) {
-    // let formattedList = tweetsList.map(tweet => {
-    //   tweet.formattedDate = moment(tweet.created_at).fromNow();
-    //   return tweet;
-    // });
-    // return {
-    //   tweetsList: formattedList
-    // };
-  }
   addTweet(tweetToAdd) {
     //  $.post("/tweets", { body: tweetToAdd })
     //  .success( savedTweet => {

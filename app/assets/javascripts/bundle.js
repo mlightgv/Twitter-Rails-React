@@ -95,17 +95,6 @@
 	  }
 	
 	  _createClass(Main, [{
-	    key: 'formattedTweets',
-	    value: function formattedTweets(tweetsList) {
-	      // let formattedList = tweetsList.map(tweet => {
-	      //   tweet.formattedDate = moment(tweet.created_at).fromNow();
-	      //   return tweet;
-	      // });
-	      // return {
-	      //   tweetsList: formattedList
-	      // };
-	    }
-	  }, {
 	    key: 'addTweet',
 	    value: function addTweet(tweetToAdd) {
 	      //  $.post("/tweets", { body: tweetToAdd })
@@ -1029,7 +1018,10 @@
 	  _createClass(TweetEventEmitter, [{
 	    key: "getAll",
 	    value: function getAll() {
-	      return _tweets;
+	      return _tweets.map(function (tweet) {
+	        tweet.formattedDate = moment(tweet.created_at).fromNow();
+	        return tweet;
+	      });
 	    }
 	  }, {
 	    key: "emitChange",

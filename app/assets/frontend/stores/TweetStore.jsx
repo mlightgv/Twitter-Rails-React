@@ -6,9 +6,11 @@ let _tweets = [];
 const CHANGE_EVENT = "CHANGE";
 
 class TweetEventEmitter extends EventEmitter {
-  
   getAll() {
-    return _tweets;
+    return _tweets.map(tweet => {
+       tweet.formattedDate = moment(tweet.created_at).fromNow();
+       return tweet;
+   });
   }
   emitChange() {
     this.emit(CHANGE_EVENT);
