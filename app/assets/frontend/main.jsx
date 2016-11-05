@@ -12,6 +12,11 @@ class Main extends React.Component {
      newTweetsList.unshift({ id: Date.now(), name: 'Guest', body: tweetToAdd });
      this.setState({ tweetsList: newTweetsList });
   }
+  componentDidMount() {
+    $.ajax("/tweets")
+    .success(data => this.setState({ tweetsList: data }))
+    .error(error => console.log(error));
+  }
   render() {
     return (
       <div className="container">
