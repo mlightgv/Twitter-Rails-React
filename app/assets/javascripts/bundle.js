@@ -67,8 +67,6 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var mockTweets = [{ id: 1, name: 'Mary Gomez', body: 'My first tweet' }, { id: 2, name: 'Mary Gomez2', body: 'My second tweet' }, { id: 3, name: 'Mary Gomez3', body: 'My third tweet' }];
-	
 	var Main = function (_React$Component) {
 	  _inherits(Main, _React$Component);
 	
@@ -77,7 +75,7 @@
 	
 	    var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 	
-	    _this.state = { tweetsList: mockTweets };
+	    _this.state = { tweetsList: [] };
 	    return _this;
 	  }
 	
@@ -85,7 +83,7 @@
 	    key: 'addTweet',
 	    value: function addTweet(tweetToAdd) {
 	      var newTweetsList = this.state.tweetsList;
-	      newTweetsList.unshift({ id: Date.now(), name: 'Guess', body: tweetToAdd });
+	      newTweetsList.unshift({ id: Date.now(), name: 'Guest', body: tweetToAdd });
 	      this.setState({ tweetsList: newTweetsList });
 	    }
 	  }, {
@@ -104,7 +102,10 @@
 	}(React.Component);
 	
 	var documentReady = function documentReady() {
-	  ReactDOM.render(React.createElement(Main, null), document.getElementById('react'));
+	  var reactNode = document.getElementById('react');
+	  if (reactNode) {
+	    ReactDOM.render(React.createElement(Main, null), reactNode);
+	  }
 	};
 	
 	$(documentReady);
