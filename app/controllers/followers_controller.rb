@@ -1,6 +1,6 @@
 class FollowersController < ApplicationController
   def index
-    render json: User.where(["id != ?", current_user.id]).all
+    render json: User.who_to_follow(current_user.id)
   end
 
   def create
