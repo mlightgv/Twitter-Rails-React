@@ -14,5 +14,11 @@ export default {
       actionType: ActionTypes.RECEIVED_ONE_TWEET,
       rawTweet
     });
+  },
+  receivedUsers(rawUsers) {
+    AppDispatcher.dispatch({
+      actionType: ActionTypes.RECEIVED_USERS,
+      rawUsers
+    });
   }
 }
