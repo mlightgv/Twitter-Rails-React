@@ -23,7 +23,7 @@ export default class Index extends React.Component {
     TweetStore.removeChangeListener(this._onChange);
   }
   _onChange() {
-    console.log(5, "Main._onChange");
+    console.log(0, "Main._onChange");
     this.setState(getAppState());
   }
   render() {

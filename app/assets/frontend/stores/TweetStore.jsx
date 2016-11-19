@@ -17,7 +17,6 @@ let TweetStore = new TweetEventEmitter();
 AppDispatcher.register( action => {
   switch(action.actionType) {
     case ActionTypes.RECEIVED_TWEETS:
-      console.log(4, "TweetStore");
       _tweets = action.rawTweets;
       TweetStore.emitChange();
       break;

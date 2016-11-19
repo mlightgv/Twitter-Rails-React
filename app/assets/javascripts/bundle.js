@@ -22079,7 +22079,7 @@
 	  }, {
 	    key: '_onChange',
 	    value: function _onChange() {
-	      console.log(5, "Main._onChange");
+	      console.log(0, "Main._onChange");
 	      this.setState(getAppState());
 	    }
 	  }, {
@@ -27281,7 +27281,6 @@
 	
 	exports.default = {
 	  getAllTweets: function getAllTweets() {
-	    console.log(1, "TweetActions");
 	    _API2.default.getAllTweets();
 	  },
 	  sendTweet: function sendTweet(body) {
@@ -27923,7 +27922,6 @@
 	_dispatcher2.default.register(function (action) {
 	  switch (action.actionType) {
 	    case _constants2.default.RECEIVED_TWEETS:
-	      console.log(4, "TweetStore");
 	      _tweets = action.rawTweets;
 	      TweetStore.emitChange();
 	      break;
