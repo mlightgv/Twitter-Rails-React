@@ -67,6 +67,10 @@
 	
 	var _Follow2 = _interopRequireDefault(_Follow);
 	
+	var _Following = __webpack_require__(/*! ./components/Following */ 244);
+	
+	var _Following2 = _interopRequireDefault(_Following);
+	
 	var _reactRouter = __webpack_require__(/*! react-router */ 173);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -110,7 +114,8 @@
 	        _reactRouter.Route,
 	        { component: App },
 	        _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Index2.default }),
-	        _react2.default.createElement(_reactRouter.Route, { path: '/follow', component: _Follow2.default })
+	        _react2.default.createElement(_reactRouter.Route, { path: '/follow', component: _Follow2.default }),
+	        _react2.default.createElement(_reactRouter.Route, { path: '/following', component: _Following2.default })
 	      )
 	    ), reactNode);
 	  }
@@ -22088,6 +22093,11 @@
 	          { to: '/follow' },
 	          'Who to follow'
 	        ),
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/following' },
+	          'Following'
+	        ),
 	        _react2.default.createElement(_TweetBox2.default, null),
 	        _react2.default.createElement(_TweetList2.default, { tweets: this.state.tweetsList })
 	      );
@@ -27328,6 +27338,26 @@
 	    }).error(function (error) {
 	      return console.log(error);
 	    });
+	  },
+	  getAllFollowers: function getAllFollowers() {
+	    console.log(2, "API.getAllFollowers");
+	    $.get("/following").success(function (rawFollowers) {
+	      return _ServerActions2.default.receivedFollowers(rawFollowers);
+	    }).error(function (error) {
+	      return console.log(error);
+	    });
+	  },
+	  unfollowUser: function unfollowUser(userId) {
+	    console.log(2, "API.unfollowUser");
+	    $.ajax({
+	      url: '/following/' + userId,
+	      method: 'DELETE',
+	      data: { user_id: userId }
+	    }).done(function (rawFollower) {
+	      return _ServerActions2.default.removeOneFollower(userId);
+	    }).fail(function (error) {
+	      return console.log(error);
+	    });
 	  }
 	};
 
@@ -27378,6 +27408,20 @@
 	    _dispatcher2.default.dispatch({
 	      actionType: _constants2.default.RECEIVED_ONE_FOLLOWER,
 	      rawFollower: rawFollower
+	    });
+	  },
+	  receivedFollowers: function receivedFollowers(rawFollowers) {
+	    console.log(3, "ServerActions.receivedFollowers");
+	    _dispatcher2.default.dispatch({
+	      actionType: _constants2.default.RECEIVED_FOLLOWERS,
+	      rawFollowers: rawFollowers
+	    });
+	  },
+	  removeOneFollower: function removeOneFollower(userId) {
+	    console.log(3, "ServerActions.removeOneFollower");
+	    _dispatcher2.default.dispatch({
+	      actionType: _constants2.default.REMOVE_ONE_FOLLOWER,
+	      userId: userId
 	    });
 	  }
 	};
@@ -27678,7 +27722,9 @@
 	  RECEIVED_TWEETS: 'RECEIVED_TWEETS',
 	  RECEIVED_ONE_TWEET: 'RECEIVED_ONE_TWEET',
 	  RECEIVED_USERS: 'RECEIVED_USERS',
-	  RECEIVED_ONE_FOLLOWER: 'RECEIVED_ONE_FOLLOWER'
+	  RECEIVED_ONE_FOLLOWER: 'RECEIVED_ONE_FOLLOWER',
+	  RECEIVED_FOLLOWERS: 'RECEIVED_FOLLOWERS',
+	  REMOVE_ONE_FOLLOWER: 'REMOVE_ONE_FOLLOWER'
 	};
 
 /***/ },
@@ -28344,7 +28390,7 @@
 	    value: function render() {
 	      var _this2 = this;
 	
-	      console.log(4, "follow");
+	      console.log(0, "Follow");
 	      var users = this.state.users.map(function (user) {
 	        return _react2.default.createElement(
 	          'li',
@@ -28462,8 +28508,21 @@
 	      UserStore.emitChange();
 	      break;
 	    case _constants2.default.RECEIVED_ONE_FOLLOWER:
-	      console.log(3, "UserStore: RECEIVED_ONE_FOLLOWER");
+	      console.log(4, "UserStore: RECEIVED_ONE_FOLLOWER");
 	      _followedIds.push(action.rawFollower.user_id);
+	      UserStore.emitChange();
+	      break;
+	    case _constants2.default.RECEIVED_FOLLOWERS:
+	      console.log(4, "UserStore: RECEIVED_FOLLOWERS");
+	      _users = action.rawFollowers;
+	      UserStore.emitChange();
+	      break;
+	    case _constants2.default.REMOVE_ONE_FOLLOWER:
+	      console.log(4, "UserStore: REMOVE_ONE_FOLLOWER");
+	      var index = _users.indexOf(action.userId);
+	      if (index > -1) {
+	        _users.splice(index, 1);
+	      }
 	      UserStore.emitChange();
 	      break;
 	    default:
@@ -28499,8 +28558,146 @@
 	  followUser: function followUser(userId) {
 	    console.log(1, "User Actions: followUser");
 	    _API2.default.followUser(userId);
+	  },
+	  getAllFollowers: function getAllFollowers() {
+	    console.log(1, "User Actions: getAllFollowers");
+	    _API2.default.getAllFollowers();
+	  },
+	  unfollowUser: function unfollowUser(userId) {
+	    console.log(1, "User Actions: unfollowUser");
+	    _API2.default.unfollowUser(userId);
 	  }
 	};
+
+/***/ },
+/* 244 */
+/*!******************************************************!*\
+  !*** ./app/assets/frontend/components/Following.jsx ***!
+  \******************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _UserStore = __webpack_require__(/*! ../stores/UserStore */ 242);
+	
+	var _UserStore2 = _interopRequireDefault(_UserStore);
+	
+	var _UserActions = __webpack_require__(/*! ../actions/UserActions */ 243);
+	
+	var _UserActions2 = _interopRequireDefault(_UserActions);
+	
+	var _reactRouter = __webpack_require__(/*! react-router */ 173);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var getAppState = function getAppState() {
+	  return { users: _UserStore2.default.getAll() };
+	};
+	
+	var Following = function (_React$Component) {
+	  _inherits(Following, _React$Component);
+	
+	  function Following(props) {
+	    _classCallCheck(this, Following);
+	
+	    var _this = _possibleConstructorReturn(this, (Following.__proto__ || Object.getPrototypeOf(Following)).call(this, props));
+	
+	    _this.state = getAppState();
+	    _this._onChange = _this._onChange.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(Following, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _UserActions2.default.getAllFollowers();
+	      _UserStore2.default.addChangeListener(this._onChange);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _UserStore2.default.removeChangeListener(this._onChange);
+	    }
+	  }, {
+	    key: '_onChange',
+	    value: function _onChange() {
+	      this.setState(getAppState());
+	    }
+	  }, {
+	    key: 'unfollowUser',
+	    value: function unfollowUser(userId) {
+	      _UserActions2.default.unfollowUser(userId);
+	      _UserActions2.default.getAllFollowers();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      console.log(0, "Following");
+	      var users = this.state.users.map(function (user) {
+	        return _react2.default.createElement(
+	          'li',
+	          { key: user.id, className: 'collection-item avatar' },
+	          _react2.default.createElement('img', { src: user.gravatar, className: 'circle' }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'title' },
+	            user.name
+	          ),
+	          _react2.default.createElement(
+	            'a',
+	            { className: 'secondary-content btn-floating green', onClick: _this2.unfollowUser.bind(_this2, user.id) },
+	            _react2.default.createElement(
+	              'i',
+	              { className: 'material-icons' },
+	              'person_pin'
+	            )
+	          )
+	        );
+	      });
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Following'
+	        ),
+	        _react2.default.createElement(
+	          'ul',
+	          { className: 'collection' },
+	          users
+	        ),
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/' },
+	          'Back'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Following;
+	}(_react2.default.Component);
+	
+	exports.default = Following;
 
 /***/ }
 /******/ ]);

@@ -22,5 +22,20 @@ export default {
     $.post("/followers", { user_id: userId })
     .success( rawFollower => ServerActions.receivedOneFollower(rawFollower) )
     .error(error => console.log(error));
+  },
+  getAllFollowers() {
+    console.log(2, "API.getAllFollowers");
+    $.get("/following")
+    .success( rawFollowers => ServerActions.receivedFollowers(rawFollowers) )
+    .error(error => console.log(error));
+  },
+  unfollowUser(userId) {
+    console.log(2, "API.unfollowUser");
+    $.ajax({
+      url: '/following/' + userId ,
+      method: 'DELETE',
+      data: { user_id: userId }
+    }).done( rawFollower => ServerActions.removeOneFollower(userId) )
+      .fail(error => console.log(error))
   }
 }

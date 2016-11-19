@@ -7,14 +7,14 @@ let getAppState = () => {
   return { users: UserStore.getAll() };
 };
 
-export default class Follow extends React.Component {
+export default class Following extends React.Component {
   constructor(props) {
     super(props);
     this.state = getAppState();
     this._onChange = this._onChange.bind(this);
   }
   componentDidMount() {
-    UserActions.getAllUsers();
+    UserActions.getAllFollowers();
     UserStore.addChangeListener(this._onChange);
   }
   componentWillUnmount() {
@@ -23,21 +23,19 @@ export default class Follow extends React.Component {
   _onChange() {
     this.setState(getAppState());
   }
-  followUser(userId) {
-    UserActions.followUser(userId);
-  }
-  followClasses(following) {
-    return "secondary-content btn-floating " + (following ? "green" : "grey")
+  unfollowUser(userId) {
+    UserActions.unfollowUser(userId);
+    UserActions.getAllFollowers();
   }
 
   render() {
-    console.log(0, "Follow");
+    console.log(0, "Following");
     let users = this.state.users.map( user => {
       return (
         <li key={user.id} className="collection-item avatar">
           <img src={user.gravatar} className="circle" />
           <span className="title">{user.name}</span>
-          <a className={this.followClasses(user.following)} onClick={this.followUser.bind(this, user.id)}>
+          <a className="secondary-content btn-floating green" onClick={this.unfollowUser.bind(this, user.id)}>
             <i className="material-icons">person_pin</i>
           </a>
         </li>
@@ -45,7 +43,7 @@ export default class Follow extends React.Component {
     });
     return (
       <div>
-        <h3>Who to follow</h3>
+        <h3>Following</h3>
         <ul className="collection">
           {users}
         </ul>

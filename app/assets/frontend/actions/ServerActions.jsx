@@ -26,5 +26,19 @@ export default {
       actionType: ActionTypes.RECEIVED_ONE_FOLLOWER,
       rawFollower
     });
+  },
+  receivedFollowers(rawFollowers) {
+    console.log(3, "ServerActions.receivedFollowers");
+    AppDispatcher.dispatch({
+      actionType: ActionTypes.RECEIVED_FOLLOWERS,
+      rawFollowers
+    });
+  },
+  removeOneFollower(userId) {
+    console.log(3, "ServerActions.removeOneFollower");
+    AppDispatcher.dispatch({
+      actionType: ActionTypes.REMOVE_ONE_FOLLOWER,
+      userId
+    });
   }
 }

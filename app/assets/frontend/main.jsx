@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import Index from './components/Index';
 import Follow from './components/Follow';
+import Following from './components/Following';
 
 import { Router, Route, Link, browserHistory } from 'react-router'
 
@@ -23,6 +24,7 @@ let documentReady = () => {
          <Route component={App}>
            <Route path="/" component={Index} />
            <Route path="/follow" component={Follow} />
+           <Route path="/following" component={Following} />
          </Route>
        </Router>,
        reactNode

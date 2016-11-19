@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   resources :followers
+  resources :following
   resources :tweets
   get 'profile' => 'profile#index'
   patch 'profile' => 'profile#update'

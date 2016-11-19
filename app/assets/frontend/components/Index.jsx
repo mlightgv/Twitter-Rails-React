@@ -30,6 +30,7 @@ export default class Index extends React.Component {
     return (
       <div className="container">
         <Link to="/follow">Who to follow</Link>
+        <Link to="/following">Following</Link>
         <TweetBox />
         <TweetList tweets={this.state.tweetsList} />
       </div>

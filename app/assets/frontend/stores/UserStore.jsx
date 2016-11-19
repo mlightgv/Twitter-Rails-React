@@ -22,8 +22,21 @@ AppDispatcher.register( action => {
       UserStore.emitChange();
       break;
     case ActionTypes.RECEIVED_ONE_FOLLOWER:
-      console.log(3, "UserStore: RECEIVED_ONE_FOLLOWER");
+      console.log(4, "UserStore: RECEIVED_ONE_FOLLOWER");
       _followedIds.push(action.rawFollower.user_id);
+      UserStore.emitChange();
+      break;
+    case ActionTypes.RECEIVED_FOLLOWERS:
+      console.log(4, "UserStore: RECEIVED_FOLLOWERS");
+      _users = action.rawFollowers;
+      UserStore.emitChange();
+      break;
+    case ActionTypes.REMOVE_ONE_FOLLOWER:
+      console.log(4, "UserStore: REMOVE_ONE_FOLLOWER");
+      let index = _users.indexOf(action.userId);
+      if (index > -1) {
+        _users.splice(index, 1)
+      }
       UserStore.emitChange();
       break;
     default:
