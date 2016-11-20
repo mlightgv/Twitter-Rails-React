@@ -109,7 +109,7 @@
 	  if (reactNode) {
 	    _reactDom2.default.render(_react2.default.createElement(
 	      _reactRouter.Router,
-	      { history: _reactRouter.browserHistory },
+	      { history: _reactRouter.hashHistory },
 	      _react2.default.createElement(
 	        _reactRouter.Route,
 	        { component: App },
@@ -28364,7 +28364,6 @@
 	
 	    var _this = _possibleConstructorReturn(this, (Follow.__proto__ || Object.getPrototypeOf(Follow)).call(this, props));
 	
-	    console.log(0, "constructor");
 	    _this.state = getAppState();
 	    _this._onChange = _this._onChange.bind(_this);
 	    return _this;

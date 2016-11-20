@@ -4,7 +4,8 @@ import Index from './components/Index';
 import Follow from './components/Follow';
 import Following from './components/Following';
 
-import { Router, Route, Link, browserHistory } from 'react-router'
+import { render } from 'react-dom'
+import { Router, Route, Link, hashHistory, browserHistory } from 'react-router'
 
 class App extends React.Component {
   render() {
@@ -16,11 +17,12 @@ class App extends React.Component {
   }
 }
 
+
 let documentReady = () => {
   let reactNode = document.getElementById('react');
   if (reactNode) {
      ReactDOM.render(
-       <Router history={browserHistory}>
+       <Router history={hashHistory}>
          <Route component={App}>
            <Route path="/" component={Index} />
            <Route path="/follow" component={Follow} />
