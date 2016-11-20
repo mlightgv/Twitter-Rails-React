@@ -10,6 +10,8 @@ let getAppState = () => {
 export default class Follow extends React.Component {
   constructor(props) {
     super(props);
+
+        console.log(0, "constructor");
     this.state = getAppState();
     this._onChange = this._onChange.bind(this);
   }
