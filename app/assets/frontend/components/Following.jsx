@@ -1,6 +1,7 @@
 import React from 'react'
 import FollowerStore from '../stores/FollowerStore';
 import UserActions from '../actions/UserActions';
+import Follower from './Follower';
 import { Link } from 'react-router';
 
 let getAppState = () => {
@@ -23,24 +24,10 @@ export default class Following extends React.Component {
   _onChange() {
     this.setState(getAppState());
   }
-  unfollowUser(userId) {
-    UserActions.unfollowUser(userId);
-    UserActions.getAllFollowers();
-  }
 
   render() {
     console.log(0, "Following");
-    let users = this.state.users.map( user => {
-      return (
-        <li key={user.id} className="collection-item avatar">
-          <img src={user.gravatar} className="circle" />
-          <span className="title">{user.name}</span>
-          <a className="secondary-content btn-floating green" onClick={this.unfollowUser.bind(this, user.id)}>
-            <i className="material-icons">person_pin</i>
-          </a>
-        </li>
-      )
-    });
+    let users = this.state.users.map( user =>  <Follower  key={user.id} {...user} /> )
     return (
       <div>
         <h3>Following</h3>

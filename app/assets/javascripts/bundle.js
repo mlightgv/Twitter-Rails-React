@@ -28328,6 +28328,8 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(/*! react */ 1);
@@ -28341,6 +28343,10 @@
 	var _UserActions = __webpack_require__(/*! ../actions/UserActions */ 243);
 	
 	var _UserActions2 = _interopRequireDefault(_UserActions);
+	
+	var _User = __webpack_require__(/*! ./User */ 249);
+	
+	var _User2 = _interopRequireDefault(_User);
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 173);
 	
@@ -28386,41 +28392,11 @@
 	      this.setState(getAppState());
 	    }
 	  }, {
-	    key: 'followUser',
-	    value: function followUser(userId) {
-	      _UserActions2.default.followUser(userId);
-	    }
-	  }, {
-	    key: 'followClasses',
-	    value: function followClasses(following) {
-	      return "secondary-content btn-floating " + (following ? "green" : "grey");
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-	
 	      console.log(0, "Follow");
 	      var users = this.state.users.map(function (user) {
-	        return _react2.default.createElement(
-	          'li',
-	          { key: user.id, className: 'collection-item avatar' },
-	          _react2.default.createElement('img', { src: user.gravatar, className: 'circle' }),
-	          _react2.default.createElement(
-	            'span',
-	            { className: 'title' },
-	            user.name
-	          ),
-	          _react2.default.createElement(
-	            'a',
-	            { className: _this2.followClasses(user.following), onClick: _this2.followUser.bind(_this2, user.id) },
-	            _react2.default.createElement(
-	              'i',
-	              { className: 'material-icons' },
-	              'person_pin'
-	            )
-	          )
-	        );
+	        return _react2.default.createElement(_User2.default, _extends({ key: user.id }, user));
 	      });
 	      return _react2.default.createElement(
 	        'div',
@@ -28580,6 +28556,8 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(/*! react */ 1);
@@ -28593,6 +28571,10 @@
 	var _UserActions = __webpack_require__(/*! ../actions/UserActions */ 243);
 	
 	var _UserActions2 = _interopRequireDefault(_UserActions);
+	
+	var _Follower = __webpack_require__(/*! ./Follower */ 248);
+	
+	var _Follower2 = _interopRequireDefault(_Follower);
 	
 	var _reactRouter = __webpack_require__(/*! react-router */ 173);
 	
@@ -28638,37 +28620,11 @@
 	      this.setState(getAppState());
 	    }
 	  }, {
-	    key: 'unfollowUser',
-	    value: function unfollowUser(userId) {
-	      _UserActions2.default.unfollowUser(userId);
-	      _UserActions2.default.getAllFollowers();
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-	
 	      console.log(0, "Following");
 	      var users = this.state.users.map(function (user) {
-	        return _react2.default.createElement(
-	          'li',
-	          { key: user.id, className: 'collection-item avatar' },
-	          _react2.default.createElement('img', { src: user.gravatar, className: 'circle' }),
-	          _react2.default.createElement(
-	            'span',
-	            { className: 'title' },
-	            user.name
-	          ),
-	          _react2.default.createElement(
-	            'a',
-	            { className: 'secondary-content btn-floating green', onClick: _this2.unfollowUser.bind(_this2, user.id) },
-	            _react2.default.createElement(
-	              'i',
-	              { className: 'material-icons' },
-	              'person_pin'
-	            )
-	          )
-	        );
+	        return _react2.default.createElement(_Follower2.default, _extends({ key: user.id }, user));
 	      });
 	      return _react2.default.createElement(
 	        'div',
@@ -45873,6 +45829,161 @@
 		return module;
 	}
 
+
+/***/ },
+/* 248 */
+/*!*****************************************************!*\
+  !*** ./app/assets/frontend/components/Follower.jsx ***!
+  \*****************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _UserActions = __webpack_require__(/*! ../actions/UserActions */ 243);
+	
+	var _UserActions2 = _interopRequireDefault(_UserActions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Follower = function (_React$Component) {
+	  _inherits(Follower, _React$Component);
+	
+	  function Follower() {
+	    _classCallCheck(this, Follower);
+	
+	    return _possibleConstructorReturn(this, (Follower.__proto__ || Object.getPrototypeOf(Follower)).apply(this, arguments));
+	  }
+	
+	  _createClass(Follower, [{
+	    key: 'unfollowUser',
+	    value: function unfollowUser(userId) {
+	      _UserActions2.default.unfollowUser(userId);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'li',
+	        { key: this.props.id, className: 'collection-item avatar' },
+	        _react2.default.createElement('img', { src: this.props.gravatar, className: 'circle' }),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'title' },
+	          this.props.name
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { className: 'secondary-content btn-floating green', onClick: this.unfollowUser.bind(this, this.props.id) },
+	          _react2.default.createElement(
+	            'i',
+	            { className: 'material-icons' },
+	            'person_pin'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Follower;
+	}(_react2.default.Component);
+	
+	exports.default = Follower;
+
+/***/ },
+/* 249 */
+/*!*************************************************!*\
+  !*** ./app/assets/frontend/components/User.jsx ***!
+  \*************************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _UserActions = __webpack_require__(/*! ../actions/UserActions */ 243);
+	
+	var _UserActions2 = _interopRequireDefault(_UserActions);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var User = function (_React$Component) {
+	  _inherits(User, _React$Component);
+	
+	  function User() {
+	    _classCallCheck(this, User);
+	
+	    return _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).apply(this, arguments));
+	  }
+	
+	  _createClass(User, [{
+	    key: 'followUser',
+	    value: function followUser(userId) {
+	      _UserActions2.default.followUser(userId);
+	    }
+	  }, {
+	    key: 'followClasses',
+	    value: function followClasses(following) {
+	      return "secondary-content btn-floating " + (following ? "green" : "grey");
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'li',
+	        { key: this.props.id, className: 'collection-item avatar' },
+	        _react2.default.createElement('img', { src: this.props.gravatar, className: 'circle' }),
+	        _react2.default.createElement(
+	          'span',
+	          { className: 'title' },
+	          this.props.name
+	        ),
+	        _react2.default.createElement(
+	          'a',
+	          { className: this.followClasses(this.props.following), onClick: this.followUser.bind(this, this.props.id) },
+	          _react2.default.createElement(
+	            'i',
+	            { className: 'material-icons' },
+	            'person_pin'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return User;
+	}(_react2.default.Component);
+	
+	exports.default = User;
 
 /***/ }
 /******/ ]);
