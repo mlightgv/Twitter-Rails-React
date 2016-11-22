@@ -28452,6 +28452,10 @@
 	
 	var _AppEventEmitter3 = _interopRequireDefault(_AppEventEmitter2);
 	
+	var _lodash = __webpack_require__(/*! lodash */ 246);
+	
+	var _lodash2 = _interopRequireDefault(_lodash);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28497,6 +28501,18 @@
 	    case _constants2.default.RECEIVED_ONE_FOLLOWER:
 	      console.log(4, "UserStore: RECEIVED_ONE_FOLLOWER");
 	      _followedIds.push(action.rawFollower.user_id);
+	      UserStore.emitChange();
+	      break;
+	    case _constants2.default.RECEIVED_FOLLOWERS:
+	      console.log(4, "UserStore: RECEIVED_FOLLOWERS");
+	      _users = action.rawFollowers;
+	      UserStore.emitChange();
+	      break;
+	    case _constants2.default.REMOVE_ONE_FOLLOWER:
+	      console.log(4, "UserStore: REMOVE_ONE_FOLLOWER");
+	      _lodash2.default.remove(_users, function (user) {
+	        return action.userId === user.id;
+	      });
 	      UserStore.emitChange();
 	      break;
 	    default:
@@ -28564,9 +28580,9 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _FollowerStore = __webpack_require__(/*! ../stores/FollowerStore */ 245);
+	var _UserStore = __webpack_require__(/*! ../stores/UserStore */ 242);
 	
-	var _FollowerStore2 = _interopRequireDefault(_FollowerStore);
+	var _UserStore2 = _interopRequireDefault(_UserStore);
 	
 	var _UserActions = __webpack_require__(/*! ../actions/UserActions */ 243);
 	
@@ -28587,7 +28603,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
 	var getAppState = function getAppState() {
-	  return { users: _FollowerStore2.default.getAll() };
+	  return { users: _UserStore2.default.getAll() };
 	};
 	
 	var Following = function (_React$Component) {
@@ -28607,12 +28623,12 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _UserActions2.default.getAllFollowers();
-	      _FollowerStore2.default.addChangeListener(this._onChange);
+	      _UserStore2.default.addChangeListener(this._onChange);
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      _FollowerStore2.default.removeChangeListener(this._onChange);
+	      _UserStore2.default.removeChangeListener(this._onChange);
 	    }
 	  }, {
 	    key: '_onChange',
@@ -28654,89 +28670,7 @@
 	exports.default = Following;
 
 /***/ },
-/* 245 */
-/*!******************************************************!*\
-  !*** ./app/assets/frontend/stores/FollowerStore.jsx ***!
-  \******************************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _dispatcher = __webpack_require__(/*! ../dispatcher */ 232);
-	
-	var _dispatcher2 = _interopRequireDefault(_dispatcher);
-	
-	var _constants = __webpack_require__(/*! ../constants */ 235);
-	
-	var _constants2 = _interopRequireDefault(_constants);
-	
-	var _AppEventEmitter2 = __webpack_require__(/*! ./AppEventEmitter */ 239);
-	
-	var _AppEventEmitter3 = _interopRequireDefault(_AppEventEmitter2);
-	
-	var _lodash = __webpack_require__(/*! lodash */ 246);
-	
-	var _lodash2 = _interopRequireDefault(_lodash);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var _followers = [];
-	
-	var FollowerEventEmitter = function (_AppEventEmitter) {
-	  _inherits(FollowerEventEmitter, _AppEventEmitter);
-	
-	  function FollowerEventEmitter() {
-	    _classCallCheck(this, FollowerEventEmitter);
-	
-	    return _possibleConstructorReturn(this, (FollowerEventEmitter.__proto__ || Object.getPrototypeOf(FollowerEventEmitter)).apply(this, arguments));
-	  }
-	
-	  _createClass(FollowerEventEmitter, [{
-	    key: "getAll",
-	    value: function getAll() {
-	      return _followers;
-	    }
-	  }]);
-	
-	  return FollowerEventEmitter;
-	}(_AppEventEmitter3.default);
-	
-	var FollowerStore = new FollowerEventEmitter();
-	
-	_dispatcher2.default.register(function (action) {
-	  switch (action.actionType) {
-	    case _constants2.default.RECEIVED_FOLLOWERS:
-	      console.log(4, "FollowerStore: RECEIVED_FOLLOWERS");
-	      _followers = action.rawFollowers;
-	      FollowerStore.emitChange();
-	      break;
-	    case _constants2.default.REMOVE_ONE_FOLLOWER:
-	      console.log(4, "FollowerStore: REMOVE_ONE_FOLLOWER");
-	      _lodash2.default.remove(_followers, function (follower) {
-	        return action.userId === follower.id;
-	      });
-	      FollowerStore.emitChange();
-	      break;
-	    default:
-	    //no op
-	  }
-	});
-	
-	exports.default = FollowerStore;
-
-/***/ },
+/* 245 */,
 /* 246 */
 /*!****************************!*\
   !*** ./~/lodash/lodash.js ***!
@@ -45946,14 +45880,22 @@
 	  }
 	
 	  _createClass(User, [{
+	    key: 'followButton',
+	    value: function followButton() {}
+	  }, {
+	    key: 'followClasses',
+	    value: function followClasses(following) {
+	      return "secondary-content btn-floating " + (following ? "green" : "grey");
+	    }
+	  }, {
 	    key: 'followUser',
 	    value: function followUser(userId) {
 	      _UserActions2.default.followUser(userId);
 	    }
 	  }, {
-	    key: 'followClasses',
-	    value: function followClasses(following) {
-	      return "secondary-content btn-floating " + (following ? "green" : "grey");
+	    key: 'unfollowUser',
+	    value: function unfollowUser(userId) {
+	      _UserActions2.default.unfollowUser(userId);
 	    }
 	  }, {
 	    key: 'render',

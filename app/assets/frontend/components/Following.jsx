@@ -1,11 +1,11 @@
 import React from 'react'
-import FollowerStore from '../stores/FollowerStore';
+import UserStore from '../stores/UserStore';
 import UserActions from '../actions/UserActions';
 import Follower from './Follower';
 import { Link } from 'react-router';
 
 let getAppState = () => {
-  return { users: FollowerStore.getAll() };
+  return { users: UserStore.getAll() };
 };
 
 export default class Following extends React.Component {
@@ -16,10 +16,10 @@ export default class Following extends React.Component {
   }
   componentDidMount() {
     UserActions.getAllFollowers();
-    FollowerStore.addChangeListener(this._onChange);
+    UserStore.addChangeListener(this._onChange);
   }
   componentWillUnmount() {
-    FollowerStore.removeChangeListener(this._onChange);
+    UserStore.removeChangeListener(this._onChange);
   }
   _onChange() {
     this.setState(getAppState());

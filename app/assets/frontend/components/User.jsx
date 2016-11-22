@@ -2,11 +2,17 @@ import React from 'react'
 import UserActions from '../actions/UserActions';
 
 export default class User extends React.Component {
-  followUser(userId) {
-    UserActions.followUser(userId);
+  followButton(){
+    
   }
   followClasses(following) {
     return "secondary-content btn-floating " + (following ? "green" : "grey")
+  }
+  followUser(userId) {
+    UserActions.followUser(userId);
+  }
+  unfollowUser(userId) {
+    UserActions.unfollowUser(userId);
   }
 
   render() {
