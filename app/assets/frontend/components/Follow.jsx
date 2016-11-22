@@ -12,6 +12,7 @@ export default class Follow extends React.Component {
   constructor(props) {
     super(props);
     this.state = getAppState();
+    UserStore.setPage("Follow");
     this._onChange = this._onChange.bind(this);
   }
   componentDidMount() {

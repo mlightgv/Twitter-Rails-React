@@ -28371,6 +28371,7 @@
 	    var _this = _possibleConstructorReturn(this, (Follow.__proto__ || Object.getPrototypeOf(Follow)).call(this, props));
 	
 	    _this.state = getAppState();
+	    _UserStore2.default.setPage("Follow");
 	    _this._onChange = _this._onChange.bind(_this);
 	    return _this;
 	  }
@@ -28466,6 +28467,7 @@
 	
 	var _users = [];
 	var _followedIds = [];
+	var _page = "";
 	
 	var UserEventEmitter = function (_AppEventEmitter) {
 	  _inherits(UserEventEmitter, _AppEventEmitter);
@@ -28483,6 +28485,16 @@
 	        user.following = _followedIds.indexOf(user.id) >= 0;
 	        return user;
 	      });
+	    }
+	  }, {
+	    key: "setPage",
+	    value: function setPage(page) {
+	      _page = page;
+	    }
+	  }, {
+	    key: "getPage",
+	    value: function getPage() {
+	      return _page;
 	    }
 	  }]);
 	
@@ -28510,9 +28522,15 @@
 	      break;
 	    case _constants2.default.REMOVE_ONE_FOLLOWER:
 	      console.log(4, "UserStore: REMOVE_ONE_FOLLOWER");
-	      _lodash2.default.remove(_users, function (user) {
-	        return action.userId === user.id;
-	      });
+	      if (UserStore.getPage() == "Follow") {
+	        _lodash2.default.remove(_followedIds, function (id) {
+	          return action.userId === id;
+	        });
+	      } else {
+	        _lodash2.default.remove(_users, function (user) {
+	          return action.userId === user.id;
+	        });
+	      }
 	      UserStore.emitChange();
 	      break;
 	    default:
@@ -28615,6 +28633,7 @@
 	    var _this = _possibleConstructorReturn(this, (Following.__proto__ || Object.getPrototypeOf(Following)).call(this, props));
 	
 	    _this.state = getAppState();
+	    _UserStore2.default.setPage("Following");
 	    _this._onChange = _this._onChange.bind(_this);
 	    return _this;
 	  }
@@ -45881,7 +45900,9 @@
 	
 	  _createClass(User, [{
 	    key: 'followButton',
-	    value: function followButton() {}
+	    value: function followButton(following) {
+	      following ? this.unfollowUser(this.props.id) : this.followUser(this.props.id);
+	    }
 	  }, {
 	    key: 'followClasses',
 	    value: function followClasses(following) {
@@ -45911,7 +45932,7 @@
 	        ),
 	        _react2.default.createElement(
 	          'a',
-	          { className: this.followClasses(this.props.following), onClick: this.followUser.bind(this, this.props.id) },
+	          { className: this.followClasses(this.props.following), onClick: this.followButton.bind(this, this.props.following) },
 	          _react2.default.createElement(
 	            'i',
 	            { className: 'material-icons' },

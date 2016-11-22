@@ -5,12 +5,19 @@ import _ from 'lodash';
 
 let _users = [];
 let _followedIds = [];
+let _page = ""
 class UserEventEmitter extends AppEventEmitter {
   getAll() {
       return _users.map( user => {
         user.following = _followedIds.indexOf(user.id) >= 0;
         return user;
       });
+  }
+  setPage(page) {
+     _page = page;
+  }
+  getPage() {
+    return _page;
   }
 }
 
@@ -35,9 +42,16 @@ AppDispatcher.register( action => {
       break;
     case ActionTypes.REMOVE_ONE_FOLLOWER:
       console.log(4, "UserStore: REMOVE_ONE_FOLLOWER");
-      _.remove(_users, function(user) {
-  			return action.userId === user.id;
-  		});
+      if (UserStore.getPage() == "Follow") {
+        _.remove(_followedIds, function(id) {
+          return action.userId === id;
+        });
+      }
+      else {
+       _.remove(_users, function(user) {
+          return action.userId === user.id;
+        });
+      }
       UserStore.emitChange();
       break;
     default:
