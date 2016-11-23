@@ -30,12 +30,16 @@ export default class Follow extends React.Component {
     console.log(0, "Follow");
     let users = this.state.users.map( user =>  <User  key={user.id} {...user} /> )
     return (
-      <div>
-        <h3>Who to follow</h3>
-        <ul className="collection">
-          {users}
-        </ul>
-        <Link to="/">Back</Link>
+      <div className="row">
+        <div className="col s2"></div>
+        <div className="col s8">
+          <h5>Who to follow</h5>
+          <ul className="collection">
+            {users}
+          </ul>
+          <Link to="/">Back</Link>
+        </div>
+        <div className="col s2"></div>
       </div>
     );
   }

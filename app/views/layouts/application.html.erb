@@ -11,22 +11,25 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"></script>
-  
+
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-  <div class="right">
-    <% if user_signed_in? %>
-     <p>Welcome <%= link_to current_user.display_name, "/profile" %>,
-        <%= link_to "logout", destroy_user_session_path, method: 'DELETE' %></p>
-    <% else %>
-     <p>Please
-         <%= link_to "login", new_user_session_path %>
-          or
-        <%= link_to "signup", new_user_registration_path %></p>
-    <% end %>
-  </div>
+  <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Mlight</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <% if user_signed_in? %>
+          <li><%= link_to "logout", destroy_user_session_path, method: 'DELETE' %></li>
+        <% else %>
+        <li><%= link_to "login", new_user_session_path %></li>
+        <li><%= link_to "signup", new_user_registration_path %></li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+
   <p class="notice"><%= notice %></p>
   <p class="alert"><%= alert %></p>
 

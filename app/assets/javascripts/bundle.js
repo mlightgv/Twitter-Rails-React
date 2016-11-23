@@ -22032,6 +22032,10 @@
 	
 	var _TweetList2 = _interopRequireDefault(_TweetList);
 	
+	var _Following = __webpack_require__(/*! ./Following */ 244);
+	
+	var _Following2 = _interopRequireDefault(_Following);
+	
 	var _TweetActions = __webpack_require__(/*! ../actions/TweetActions */ 229);
 	
 	var _TweetActions2 = _interopRequireDefault(_TweetActions);
@@ -22087,31 +22091,22 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'container' },
+	        { className: 'row' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'collection' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'collection-item' },
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/follow' },
-	              'Who to follow'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'collection-item' },
-	            _react2.default.createElement(
-	              _reactRouter.Link,
-	              { to: '/following' },
-	              'Following'
-	            )
-	          )
+	          { className: 'col s4' },
+	          _react2.default.createElement(_Following2.default, null)
 	        ),
-	        _react2.default.createElement(_TweetBox2.default, null),
-	        _react2.default.createElement(_TweetList2.default, { tweets: this.state.tweetsList })
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col s8' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'container' },
+	            _react2.default.createElement(_TweetBox2.default, null),
+	            _react2.default.createElement(_TweetList2.default, { tweets: this.state.tweetsList })
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -28401,22 +28396,28 @@
 	      });
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'row' },
+	        _react2.default.createElement('div', { className: 'col s2' }),
 	        _react2.default.createElement(
-	          'h3',
-	          null,
-	          'Who to follow'
+	          'div',
+	          { className: 'col s8' },
+	          _react2.default.createElement(
+	            'h5',
+	            null,
+	            'Who to follow'
+	          ),
+	          _react2.default.createElement(
+	            'ul',
+	            { className: 'collection' },
+	            users
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: '/' },
+	            'Back'
+	          )
 	        ),
-	        _react2.default.createElement(
-	          'ul',
-	          { className: 'collection' },
-	          users
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/' },
-	          'Back'
-	        )
+	        _react2.default.createElement('div', { className: 'col s2' })
 	      );
 	    }
 	  }]);
@@ -28665,19 +28666,19 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h3',
+	          'h5',
 	          null,
 	          'Following'
+	        ),
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/follow' },
+	          'Who to follow'
 	        ),
 	        _react2.default.createElement(
 	          'ul',
 	          { className: 'collection' },
 	          users
-	        ),
-	        _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: '/' },
-	          'Back'
 	        )
 	      );
 	    }

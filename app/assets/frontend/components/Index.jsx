@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'react-router'
 import TweetBox from './TweetBox';
 import TweetList from './TweetList';
+import Following from './Following';
 import TweetActions from '../actions/TweetActions';
 import TweetStore from '../stores/TweetStore';
 
@@ -28,13 +29,16 @@ export default class Index extends React.Component {
   }
   render() {
     return (
-      <div className="container">
-        <div className="collection">
-          <div className="collection-item"><Link to="/follow">Who to follow</Link></div>
-          <div className="collection-item"><Link to="/following">Following</Link></div>
+      <div className="row">
+        <div className="col s4">
+          <Following />
         </div>
-        <TweetBox />
-        <TweetList tweets={this.state.tweetsList} />
+        <div className="col s8">
+          <div className="container">
+            <TweetBox />
+            <TweetList tweets={this.state.tweetsList} />
+          </div>
+        </div>
       </div>
     );
   }

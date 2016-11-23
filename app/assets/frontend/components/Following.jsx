@@ -30,13 +30,13 @@ export default class Following extends React.Component {
     console.log(0, "Following");
     let users = this.state.users.map( user =>  <Follower  key={user.id} {...user} /> )
     return (
-      <div>
-        <h3>Following</h3>
-        <ul className="collection">
-          {users}
-        </ul>
-        <Link to="/">Back</Link>
-      </div>
+        <div>
+          <h5>Following</h5>
+          <Link to="/follow">Who to follow</Link>
+          <ul className="collection">
+            {users}
+          </ul>
+        </div>
     );
   }
 }
