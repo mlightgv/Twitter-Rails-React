@@ -18,13 +18,14 @@
 
   <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Mlight</a>
+      <a href="#" class="brand-logo">Twitter</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <% if user_signed_in? %>
-          <li><%= link_to "logout", destroy_user_session_path, method: 'DELETE' %></li>
+          <li><%= link_to current_user.display_name, "/profile" %></li>
+          <li><%= link_to "Logout", destroy_user_session_path, method: 'DELETE' %></li>
         <% else %>
-        <li><%= link_to "login", new_user_session_path %></li>
-        <li><%= link_to "signup", new_user_registration_path %></li>
+        <li><%= link_to "Login", new_user_session_path %></li>
+        <li><%= link_to "Signup", new_user_registration_path %></li>
         <% end %>
       </ul>
     </div>

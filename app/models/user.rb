@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   end
 
   def display_name
-    first_name.present? ? "#{first_name} #{last_name}" : email
+    first_name.present? ? "#{first_name} #{last_name}".titleize : email
   end
 
   def gravatar
