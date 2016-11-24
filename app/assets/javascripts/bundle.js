@@ -27936,6 +27936,12 @@
 	      _tweets.unshift(action.rawTweet);
 	      TweetStore.emitChange();
 	      break;
+	    case _constants2.default.REMOVE_ONE_FOLLOWER:
+	      _.remove(_tweets, function (tweet) {
+	        return action.userId === tweet.user_id;
+	      });
+	      TweetStore.emitChange();
+	      break;
 	    default:
 	    //no op
 	  }

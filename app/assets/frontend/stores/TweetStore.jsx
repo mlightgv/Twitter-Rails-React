@@ -24,6 +24,12 @@ AppDispatcher.register( action => {
       _tweets.unshift(action.rawTweet);
       TweetStore.emitChange();
       break;
+    case ActionTypes.REMOVE_ONE_FOLLOWER:
+       _.remove(_tweets, function(tweet) {
+         return action.userId === tweet.user_id;
+       });
+      TweetStore.emitChange();
+      break;
     default:
       //no op
   }
